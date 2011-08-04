@@ -304,7 +304,7 @@ module ActionView
       #   text_area_tag 'comment', nil, :class => 'comment_input'
       #   # => <textarea class="comment_input" id="comment" name="comment"></textarea>
       def text_area_tag(name, content = nil, options = {})
-        options.stringify_keys!
+        options = options.stringify_keys
 
         if size = options.delete("size")
           options["cols"], options["rows"] = size.split("x") if size.respond_to?(:split)
@@ -407,7 +407,7 @@ module ActionView
       #         data-confirm="Are you sure?" />
       #
       def submit_tag(value = "Save changes", options = {})
-        options.stringify_keys!
+        options = options.stringify_keys
 
         if disable_with = options.delete("disable_with")
           options["data-disable-with"] = disable_with
@@ -417,7 +417,7 @@ module ActionView
           options["data-confirm"] = confirm
         end
 
-        tag :input, { "type" => "submit", "name" => "commit", "value" => value }.update(options.stringify_keys)
+        tag :input, { "type" => "submit", "name" => "commit", "value" => value }.update(options)
       end
 
       # Creates a button element that defines a <tt>submit</tt> button,
@@ -458,7 +458,7 @@ module ActionView
       def button_tag(content_or_options = nil, options = nil, &block)
         options = content_or_options if block_given? && content_or_options.is_a?(Hash)
         options ||= {}
-        options.stringify_keys!
+        options = options.stringify_keys
 
         if disable_with = options.delete("disable_with")
           options["data-disable-with"] = disable_with
@@ -497,13 +497,13 @@ module ActionView
       #   image_submit_tag("agree.png", :disabled => true, :class => "agree_disagree_button")
       #   # => <input class="agree_disagree_button" disabled="disabled" src="/images/agree.png" type="image" />
       def image_submit_tag(source, options = {})
-        options.stringify_keys!
+        options = options.stringify_keys
 
         if confirm = options.delete("confirm")
           options["data-confirm"] = confirm
         end
 
-        tag :input, { "type" => "image", "src" => path_to_image(source) }.update(options.stringify_keys)
+        tag :input, { "type" => "image", "src" => path_to_image(source) }.update(options)
       end
 
       # Creates a field set for grouping HTML form elements.

@@ -332,6 +332,10 @@ module ActiveRecord
       (delegate || superclass.delegate).send(name, *args, &block)
     end
 
+    def self.migrate(direction)
+      new.migrate direction
+    end
+
     cattr_accessor :verbose
 
     attr_accessor :name, :version
