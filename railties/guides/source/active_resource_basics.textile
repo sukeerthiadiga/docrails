@@ -69,6 +69,51 @@ person = Person.find(1)
 person.destroy
 </ruby>
 
+h3. Custom URLs
+
+Often sometime we need to customize the URL as it always wont be RESTful URLs.
+
+<ruby>
+class Person < ActiveResource::Base
+self.site = "http://api.people.com:3000/"
+self.prefix = 'api/'
+self.collection_name = 'user'
+end
+</ruby>
+
+with this settings below URLs will be used for simple CRUD/life cycle methods.
+<ruby>
+Person.find(1)   #GET http://api.people.com:3000/api/user/1.xml
+Person.delete(1) #DELETE http://api.people.com:3000/api/user/1.xml
+</ruby>
+
+h3. Headers
+
+ActiveResource allows us to set headers for each request in two ways.
+
+h4. Setting it as variable
+
+<ruby>
+class Person < ActiveResource::Base
+  self.site = "http://api.people.com:3000/"
+  @headers = { 'x-drink' => 'coffee' }
+end
+</ruby>
+
+This will include HTTP header: HTTP-X-DRINK: coffee on every request.
+
+h4. Overriding headers method
+
+<ruby>
+class Person < ActiveResource::Base
+  self.site = "http://api.people.com:3000/"
+  def self.headers
+    { 'x-drink' => 'coffee' }
+  end
+end
+</ruby>
+This will do same as setting variable.
+
 h3. Validations
 
 There is Module to support validation and errors with Active Resource objects. The module also adds an errors collection that mimics the interface of the errors provided by ActiveRecord::Errors.
