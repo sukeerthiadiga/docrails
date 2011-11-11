@@ -69,6 +69,27 @@ person = Person.find(1)
 person.destroy
 </ruby>
 
+h3. Validations
+
+There is Module to support validation and errors with Active Resource objects. The module also adds an errors collection that mimics the interface of the errors provided by ActiveRecord::Errors.
+Assuming that there is a Person resource on server which requires both first_name and last_name with validates_presence_of :first_name, :last_name on model.
+
+<ruby>
+person = Person.create(:first_name => '', :last_name => '')
+person.save                   # => false
+#server returns an HTTP 422 status code and errors
+person.valid?                 # => false
+person.errors.empty?          # => false
+person.errors.count           # => 2
+person.errors.full_messages   # => ["First name can't be empty", "Last name can't be empty"]
+person.errors[:first_name]  # => ["can't be empty"]
+
+person.first_name = 'Sukeerthi'
+person.last_name => 'Adiga'
+person.save # => true
+#person is now saved to the remote service
+</ruby>
+
 h3. Changelog
 
 * July 30, 2011: Initial version by "Vishnu Atrai":http://github.com/vatrai
